@@ -32,7 +32,7 @@ export default function B2BPage() {
       </nav>
 
       {/* EDITORIAL HERO */}
-      <section className="relative w-full h-[90vh] flex flex-col items-center justify-center border-b border-white/5">
+      <section className="relative w-full min-h-[90vh] py-32 flex flex-col items-center justify-center border-b border-white/5">
 
         {/* Subtle glow behind typography */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-white/[0.015] blur-[150px] rounded-full pointer-events-none" />
@@ -65,8 +65,8 @@ export default function B2BPage() {
         </div>
 
         {/* Scroll indicator */}
-        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center opacity-30 animate-pulse">
-          <span className="text-[8px] uppercase tracking-[0.3em] font-bold mb-3">Serviços</span>
+        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 hidden sm:flex flex-col items-center opacity-30 animate-pulse">
+          <span className="text-[10px] sm:text-xs uppercase tracking-[0.3em] font-bold mb-3">Serviços</span>
           <MoveDown className="w-4 h-4" />
         </div>
       </section>

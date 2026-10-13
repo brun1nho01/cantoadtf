@@ -22,26 +22,24 @@ export default function Home() {
             <div className="font-serif text-2xl tracking-[0.2em] font-bold text-white">
               CantoA
             </div>
-            <div className="text-[8px] tracking-[0.4em] font-medium text-white/50 uppercase mt-0.5">
+            <div className="text-[10px] md:text-xs tracking-[0.4em] font-medium text-white/50 uppercase mt-0.5">
               Confecção Premium
             </div>
           </div>
 
           <div className="flex-1 hidden md:flex items-center justify-center gap-12 animate-fade-in delay-200">
-            <Link href="/" className="text-[10px] uppercase tracking-widest font-semibold text-white hover:text-white/70 transition-colors">
+            <Link href="/" className="text-xs uppercase tracking-widest font-semibold text-white hover:text-white/70 transition-colors">
               Catálogo
             </Link>
-            <Link href="/b2b-atacado" className="text-[10px] uppercase tracking-widest font-semibold text-white/50 hover:text-white transition-colors">
+            <Link href="/b2b-atacado" className="text-xs uppercase tracking-widest font-semibold text-white/50 hover:text-white transition-colors">
               B2B / Atacado
             </Link>
           </div>
 
           <div className="flex-1 flex items-center justify-end animate-fade-in delay-200 gap-4">
             <div className="hidden md:block">
-              <Link href="/simulator" passHref className="pointer-events-auto">
-                <Button className="bg-white text-black hover:bg-white/90 text-[10px] uppercase tracking-widest font-bold rounded-full px-8 h-10 transition-all hover:scale-105 shadow-[0_0_30px_rgba(255,255,255,0.1)]">
-                  Abrir Studio 3D
-                </Button>
+              <Link href="/simulator" className="inline-flex items-center justify-center bg-white text-black hover:bg-white/90 text-xs uppercase tracking-widest font-bold rounded-full px-8 h-10 transition-all hover:scale-105 shadow-[0_0_30px_rgba(255,255,255,0.1)] pointer-events-auto">
+                Abrir Studio 3D
               </Link>
             </div>
             {/* Nav do menu em telas Mobile */}
@@ -67,11 +65,9 @@ export default function Home() {
               Não vendemos apenas camisetas. Entregamos uma fusão perfeita entre malhas ultra-premium e tecnologia de impressão DTF exata. Sem furos, sem desbotamentos.
             </p>
 
-            <Link href="/simulator" passHref className="pointer-events-auto">
-              <Button size="lg" className="h-[60px] px-10 rounded-full bg-white text-black hover:bg-gray-200 text-xs uppercase tracking-[0.2em] font-bold group transition-all shadow-[0_0_40px_rgba(255,255,255,0.15)] hover:shadow-[0_0_60px_rgba(255,255,255,0.3)]">
-                Acessar Simulador
-                <MoveRight className="ml-4 w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" />
-              </Button>
+            <Link href="/simulator" className="inline-flex items-center justify-center h-[60px] px-10 rounded-full bg-white text-black hover:bg-gray-200 text-xs uppercase tracking-[0.2em] font-bold group transition-all shadow-[0_0_40px_rgba(255,255,255,0.15)] hover:shadow-[0_0_60px_rgba(255,255,255,0.3)] pointer-events-auto">
+              Acessar Simulador
+              <MoveRight className="ml-4 w-4 h-4 group-hover:translate-x-2 transition-transform duration-300" />
             </Link>
           </div>
 
@@ -93,7 +89,7 @@ export default function Home() {
 
                 {/* Decorative Specs overlay */}
                 <div className="absolute bottom-10 left-10 p-4 rounded-xl bg-black/40 backdrop-blur-md border border-white/10">
-                  <div className="text-[8px] uppercase tracking-widest text-white/40 mb-1">Tecnologia</div>
+                  <div className="text-xs uppercase tracking-widest text-white/40 mb-1">Tecnologia</div>
                   <div className="text-sm font-serif text-white">DTF + UV Fusion</div>
                 </div>
               </div>

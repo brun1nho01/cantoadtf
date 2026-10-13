@@ -43,6 +43,7 @@ export default function SimulatorPage() {
   };
 
   const [availableArts, setAvailableArts] = useState<ArtItem[]>([]);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   useEffect(() => {
     fetch('http://localhost:3333/api/arts')
@@ -111,12 +112,12 @@ export default function SimulatorPage() {
       <div className="absolute inset-0 z-0 flex flex-1 w-full h-full">
         <Viewer3D />
 
-        {/* OVERLAY DE LOADING BAKE */}
+        {/* OVERLAY DE LOADING BAKE (Non-blocking) */}
         {isBakingTexture && (
-          <div className="absolute inset-0 z-10 flex items-center justify-center bg-black/50 backdrop-blur-md transition-all duration-300">
-            <div className="flex flex-col items-center gap-6">
-              <div className="w-12 h-12 border-4 border-white/20 border-t-white rounded-full animate-spin"></div>
-              <p className="font-sans text-xs uppercase tracking-[0.2em] font-medium text-white/80">Processando Estampa...</p>
+          <div className="absolute top-24 left-1/2 -translate-x-1/2 z-10 flex items-center justify-center bg-black/80 backdrop-blur-md border border-white/10 rounded-full py-2.5 px-5 shadow-2xl animate-fade-in transition-all duration-300 pointer-events-none">
+            <div className="flex items-center gap-3">
+              <div className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>
+              <p className="font-sans text-xs uppercase tracking-[0.2em] font-medium text-white/90">Processando...</p>
             </div>
           </div>
         )}
@@ -134,7 +135,7 @@ export default function SimulatorPage() {
           <div className="font-serif text-xl tracking-widest font-bold">
             CantoA
           </div>
-          <div className="text-[9px] tracking-[0.3em] font-light text-white/40 uppercase mt-0.5">Studio 3D</div>
+          <div className="text-xs tracking-[0.2em] font-light text-white/40 uppercase mt-0.5">Studio 3D</div>
         </div>
 
         <div className="flex-1 flex justify-end">
@@ -142,20 +143,44 @@ export default function SimulatorPage() {
         </div>
       </nav>
 
-      {/* FLOATING CONFIGURATOR PANEL (Glassmorphism) */}
-      <aside className="fixed lg:absolute left-0 bottom-0 lg:left-auto lg:right-6 lg:top-28 lg:bottom-6 w-full lg:w-[420px] max-h-[60vh] lg:max-h-none z-20 flex flex-col gap-6 overflow-y-auto overscroll-contain overflow-x-hidden p-6 bg-[#0a0a0a]/65 backdrop-blur-3xl border border-white/10 rounded-t-3xl lg:rounded-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.5)] lg:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)]">
+      {/* MOBILE DRAWER TRIGGER */}
+      <div className="lg:hidden fixed bottom-0 left-0 w-full z-30 p-4 bg-[#0a0a0a]/80 backdrop-blur-md border-t border-white/10 flex justify-between items-center rounded-t-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.5)] cursor-pointer hover:bg-[#0a0a0a]" onClick={() => setIsDrawerOpen(true)}>
+        <div className="flex flex-col">
+          <span className="text-sm font-serif text-white">Configurar Peça</span>
+          <span className="text-[10px] uppercase text-white/50">{material} &bull; {shirtColor}</span>
+        </div>
+        <Button className="rounded-full bg-white text-black px-6 text-xs h-10 shadow-lg pointer-events-none">
+          Abrir
+        </Button>
+      </div>
+
+      {/* MOBILE BACKDROP */}
+      {isDrawerOpen && (
+        <div 
+          className="lg:hidden fixed inset-0 bg-black/60 z-40 backdrop-blur-sm transition-opacity"
+          onClick={() => setIsDrawerOpen(false)}
+        />
+      )}
+
+      {/* FLOATING CONFIGURATOR PANEL (Glassmorphism & Drawer) */}
+      <aside className={`fixed lg:absolute left-0 lg:left-auto lg:right-6 bottom-0 lg:top-28 lg:bottom-6 w-full lg:w-[420px] h-[85vh] lg:h-auto z-50 lg:z-20 flex flex-col gap-4 lg:gap-6 overflow-y-auto overscroll-contain overflow-x-hidden p-4 lg:p-6 bg-[#0a0a0a]/95 lg:bg-[#0a0a0a]/65 backdrop-blur-3xl border border-t-white/20 lg:border-white/10 rounded-t-3xl lg:rounded-3xl shadow-[0_-20px_60px_rgba(0,0,0,0.8)] lg:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)] transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${isDrawerOpen ? 'translate-y-0' : 'translate-y-full lg:translate-y-0'}`}>
+
+        {/* HANDLE PARA MOBILE */}
+        <div className="lg:hidden w-full flex justify-center pb-4 pt-1 cursor-pointer" onClick={() => setIsDrawerOpen(false)}>
+          <div className="w-12 h-1.5 bg-white/20 hover:bg-white/40 transition-colors rounded-full" />
+        </div>
 
         <div>
           <h2 className="text-xl font-serif text-white/90">Ajustar Malha</h2>
           <p className="text-xs text-white/40 mt-1 mb-8 tracking-wide">Configure a estrutura base da peça.</p>
 
-          <div className="space-y-8">
+            <div className="space-y-6 lg:space-y-8">
             {/* CORES */}
             <div>
               <div className="flex justify-between items-end mb-4">
-                <label className="text-[10px] uppercase font-semibold tracking-[0.2em] text-white/50 block">Coloração</label>
+                <label className="text-xs uppercase font-semibold tracking-[0.2em] text-white/50 block">Coloração</label>
                 {(frontArtworkId || backArtworkId) && (
-                  <span className="text-[8px] uppercase tracking-widest text-amber-500/80 font-bold bg-amber-500/10 px-2 py-0.5 rounded-sm">
+                  <span className="text-xs uppercase tracking-widest text-amber-500/80 font-bold bg-amber-500/10 px-2 py-0.5 rounded-sm">
                     Modo Halftone Dark
                   </span>
                 )}
@@ -178,6 +203,7 @@ export default function SimulatorPage() {
                       className={`w-12 h-12 lg:w-10 lg:h-10 rounded-full transition-all duration-300 ${shirtColor === c ? 'ring-2 ring-white ring-offset-2 ring-offset-[#0a0a0a] scale-110 shadow-lg' : 'opacity-60'} ${isDisabled ? 'opacity-20 cursor-not-allowed grayscale' : 'hover:opacity-100 hover:scale-105'}`}
                       style={{ backgroundColor: c, border: c === '#1A1A1A' || c === '#0f172a' || c === '#450a0a' ? '1px solid rgba(255,255,255,0.1)' : 'none' }}
                       title={isDisabled ? "Incompatível com Arte Halftone" : c}
+                      aria-label={`Selecionar cor ${c}`}
                     >
                       {isDisabled && (
                         <div className="absolute inset-0 flex items-center justify-center">
@@ -190,7 +216,7 @@ export default function SimulatorPage() {
               </div>
               {/* Aviso dinâmico */}
               {(frontArtworkId || backArtworkId) && (
-                <p className="text-[9px] text-amber-500/50 mt-3 font-light leading-relaxed">
+                <p className="text-xs text-amber-500/60 mt-3 font-light leading-relaxed">
                   * Sua arte possui retículas (Halftone) otimizadas para tecidos escuros. Malhas claras foram desabilitadas para garantir a revelação correta da estampa.
                 </p>
               )}
@@ -198,13 +224,13 @@ export default function SimulatorPage() {
 
             {/* TECIDO / MATERIAL */}
             <div>
-              <label className="text-[10px] uppercase font-semibold tracking-[0.2em] text-white/50 mb-4 block">Acabamento Têxtil</label>
+              <label className="text-xs uppercase font-semibold tracking-[0.2em] text-white/50 mb-4 block">Acabamento Têxtil</label>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-2 p-1 bg-white/5 border border-white/5 rounded-xl">
                 {(['algodao', 'pv', 'pp'] as MeshMaterial[]).map((mat) => (
                   <button
                     key={mat}
                     onClick={() => setMaterial(mat)}
-                    className={`min-h-[48px] py-2 px-1 text-[11px] font-medium uppercase tracking-wider rounded-lg transition-all duration-300 ${material === mat ? 'bg-white text-black shadow-md' : 'text-white/50 hover:text-white hover:bg-white/10'}`}
+                    className={`min-h-[48px] py-2 px-1 text-xs font-medium uppercase tracking-wider rounded-lg transition-all duration-300 ${material === mat ? 'bg-white text-black shadow-md' : 'text-white/50 hover:text-white hover:bg-white/10'}`}
                   >
                     {mat}
                   </button>
@@ -214,13 +240,13 @@ export default function SimulatorPage() {
 
             {/* GOLA */}
             <div>
-              <label className="text-[10px] uppercase font-semibold tracking-[0.2em] text-white/50 mb-4 block">Construção da Gola</label>
+              <label className="text-xs uppercase font-semibold tracking-[0.2em] text-white/50 mb-4 block">Construção da Gola</label>
               <div className="flex flex-col gap-2">
                 {(['ribana-premium', 'ribana-padrao', 'vies'] as CollarType[]).map((col) => (
                   <button
                     key={col}
                     onClick={() => setCollar(col)}
-                    className={`min-h-[48px] py-3 px-5 text-[11px] font-medium tracking-[0.1em] text-left border rounded-xl transition-all duration-300 ${collar === col ? 'bg-white/10 text-white border-white/30 shadow-inner' : 'bg-transparent text-white/40 border-white/10 hover:border-white/30 hover:text-white/80'}`}
+                    className={`min-h-[48px] py-3 px-5 text-xs font-medium tracking-[0.1em] text-left border rounded-xl transition-all duration-300 ${collar === col ? 'bg-white/10 text-white border-white/30 shadow-inner' : 'bg-transparent text-white/40 border-white/10 hover:border-white/30 hover:text-white/80'}`}
                   >
                     {col.replace('-', ' ').toUpperCase()}
                   </button>
@@ -244,13 +270,13 @@ export default function SimulatorPage() {
             <div className="flex bg-white/10 border border-white/10 p-1 rounded-lg">
               <button
                 onClick={() => setActiveSide('front')}
-                className={`flex-1 min-h-[48px] lg:min-h-0 py-2 lg:py-1.5 px-4 text-[10px] font-semibold uppercase tracking-wider rounded-md transition-all duration-300 ${activeSide === 'front' ? 'bg-white text-black shadow-sm' : 'text-white/50 hover:text-white'}`}
+                className={`flex-1 min-h-[44px] lg:min-h-[48px] lg:py-1.5 px-4 text-xs font-semibold uppercase tracking-wider rounded-md transition-all duration-300 ${activeSide === 'front' ? 'bg-white text-black shadow-sm' : 'text-white/50 hover:text-white'}`}
               >
                 Frente
               </button>
               <button
                 onClick={() => setActiveSide('back')}
-                className={`flex-1 min-h-[48px] lg:min-h-0 py-2 lg:py-1.5 px-4 text-[10px] font-semibold uppercase tracking-wider rounded-md transition-all duration-300 ${activeSide === 'back' ? 'bg-white text-black shadow-sm' : 'text-white/50 hover:text-white'}`}
+                className={`flex-1 min-h-[44px] lg:min-h-[48px] lg:py-1.5 px-4 text-xs font-semibold uppercase tracking-wider rounded-md transition-all duration-300 ${activeSide === 'back' ? 'bg-white text-black shadow-sm' : 'text-white/50 hover:text-white'}`}
               >
                 Costas
               </button>
@@ -276,7 +302,7 @@ export default function SimulatorPage() {
                     loading="lazy"
                   />
                 </div>
-                <div className="absolute top-1 right-1 inset-x-auto text-[8px] font-bold tracking-widest text-[#111] bg-white/90 px-1.5 py-0.5 rounded-sm backdrop-blur-sm shadow-sm">
+                <div className="absolute top-1 right-1 inset-x-auto text-[10px] lg:text-xs font-bold tracking-widest text-[#111] bg-white/90 px-1.5 py-0.5 rounded-sm backdrop-blur-sm shadow-sm">
                   {art.size}
                 </div>
               </div>
@@ -290,8 +316,8 @@ export default function SimulatorPage() {
           </div>
         </div>
 
-        <div className="mt-6">
-          <Button onClick={handleAddToCart} className="w-full h-16 bg-white text-black hover:bg-white/90 text-[13px] uppercase tracking-[0.2em] font-bold rounded-2xl transition-all duration-300 hover:scale-[1.02] shadow-[0_0_40px_rgba(255,255,255,0.15)] flex items-center justify-center gap-3">
+        <div className="mt-4 lg:mt-6">
+          <Button onClick={handleAddToCart} className="w-full h-16 bg-white text-black hover:bg-white/90 text-sm uppercase tracking-[0.2em] font-bold rounded-2xl transition-all duration-300 hover:scale-[1.02] shadow-[0_0_40px_rgba(255,255,255,0.15)] flex items-center justify-center gap-3">
             <ShoppingBag className="w-4 h-4" />
             Adicionar à Sacola
           </Button>

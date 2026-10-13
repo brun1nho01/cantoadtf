@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useCartStore } from "@/store/useCartStore";
 import { Button } from "@/components/ui/button";
@@ -79,9 +79,11 @@ export default function CartDrawer() {
                   onClick={() => removeItem(item.id)}
                   aria-label="Remover camisa da sacola"
                   title="Remover camisa"
-                  className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                  className="absolute -top-4 -right-4 p-3 opacity-0 group-[.group]:opacity-100 group-hover:opacity-100 transition-opacity z-20"
                 >
-                  <X className="w-3 h-3" aria-hidden="true" />
+                  <div className="w-6 h-6 bg-red-500 text-white rounded-full flex items-center justify-center shadow-lg">
+                    <X className="w-3 h-3" aria-hidden="true" />
+                  </div>
                 </button>
 
                 {/* Color Mock & Artwork Thumbnail */}
@@ -101,7 +103,7 @@ export default function CartDrawer() {
                       <div className="absolute inset-0 bg-black/20 z-0" />
                     </>
                   ) : (
-                    <div className="text-[8px] uppercase tracking-widest text-[#0a0a0a] mix-blend-difference font-bold opacity-30 invert">
+                    <div className="text-[10px] sm:text-xs uppercase tracking-widest text-[#0a0a0a] mix-blend-difference font-bold opacity-30 invert">
                       Malha
                     </div>
                   )}
@@ -110,21 +112,21 @@ export default function CartDrawer() {
                 <div className="flex-1 flex flex-col justify-between">
                   <div>
                     <h3 className="text-base font-serif text-white">Camiseta Premium</h3>
-                    <p className="text-[10px] uppercase font-bold tracking-widest text-white/40 mb-1">
+                    <p className="text-xs uppercase font-bold tracking-widest text-white/40 mb-1">
                       {item.material} / {item.collar.replace('-', ' ')}
                     </p>
-                    <p className="text-[9px] uppercase tracking-widest text-white/30 truncate max-w-[150px]">
+                    <p className="text-xs uppercase tracking-widest text-white/30 truncate max-w-[150px]">
                       {item.frontArtworkId || item.backArtworkId ? (item.frontArtworkId || item.backArtworkId)?.replace('.png', '') : 'Lisa'} ({item.artworkSize})
                     </p>
                   </div>
 
                   <div className="flex items-center justify-between mt-4">
                     <div className="flex items-center bg-white/10 rounded-full border border-white/5">
-                      <button onClick={() => updateQuantity(item.id, item.quantity - 1)} aria-label="Diminuir" className="w-10 h-10 flex items-center justify-center hover:bg-white/10 rounded-full transition-colors hidden-outline">
+                      <button onClick={() => updateQuantity(item.id, item.quantity - 1)} aria-label="Diminuir" className="w-11 h-11 flex items-center justify-center hover:bg-white/10 rounded-full transition-colors hidden-outline">
                         <Minus className="w-4 h-4 text-white" aria-hidden="true" />
                       </button>
                       <span className="w-6 text-center text-xs font-bold text-white">{item.quantity}</span>
-                      <button onClick={() => updateQuantity(item.id, item.quantity + 1)} aria-label="Aumentar" className="w-10 h-10 flex items-center justify-center hover:bg-white/10 rounded-full transition-colors hidden-outline">
+                      <button onClick={() => updateQuantity(item.id, item.quantity + 1)} aria-label="Aumentar" className="w-11 h-11 flex items-center justify-center hover:bg-white/10 rounded-full transition-colors hidden-outline">
                         <Plus className="w-4 h-4 text-white" aria-hidden="true" />
                       </button>
                     </div>
@@ -164,7 +166,7 @@ export default function CartDrawer() {
               <svg width="10" height="12" viewBox="0 0 10 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1 5V3.5C1 2.57174 1.36875 1.6815 2.02513 1.02513C2.6815 0.368749 3.57174 0 4.5 0H5.5C6.42826 0 7.3185 0.368749 7.97487 1.02513C8.63125 1.6815 9 2.57174 9 3.5V5M3.5 8.5V7M1 5H9C9.55228 5 10 5.44772 10 6V11C10 11.5523 9.55228 12 9 12H1C0.447715 12 0 11.5523 0 11V6C0 5.44772 0.447715 5 1 5Z" stroke="currentColor" strokeLinejoin="round"/>
               </svg>
-              <span className="text-[8px] uppercase tracking-[0.2em] font-medium">PCI Compliant â€¢ Stripe 256-bit</span>
+              <span className="text-[10px] sm:text-xs uppercase tracking-[0.2em] font-medium">PCI Compliant â€¢ Stripe 256-bit</span>
             </div>
           </div>
         )}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -8,11 +8,22 @@ import { Button } from "@/components/ui/button";
 export function MobileMenu() {
   const [isOpen, setIsOpen] = useState(false);
 
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
   return (
     <div className="md:hidden flex items-center z-50">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="text-white p-2 relative z-[60]"
+        className="text-white p-3 relative z-[60]"
         aria-label="Toggle Menu"
       >
         {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -37,11 +48,9 @@ export function MobileMenu() {
           <Link
             href="/simulator"
             onClick={() => setIsOpen(false)}
-            className="mt-4"
+            className="inline-flex items-center justify-center bg-white text-black hover:bg-white/90 text-xs uppercase tracking-widest font-bold rounded-full px-8 h-10 transition-all hover:scale-105 mt-4"
           >
-            <Button className="bg-white text-black hover:bg-white/90 text-[10px] uppercase tracking-widest font-bold rounded-full px-8 h-10 transition-all hover:scale-105">
-              Abrir Studio 3D
-            </Button>
+            Abrir Studio 3D
           </Link>
         </div>
       )}
